@@ -16,7 +16,9 @@ import torch.distributed as dist
 import torch.multiprocessing as mp
 from torch.utils.data.distributed import DistributedSampler
 from torch.nn.parallel import DistributedDataParallel as DDP
-from torch.cuda.amp import autocast, GradScaler
+# from torch.cuda.amp import autocast, GradScaler
+from torch.amp.grad_scaler import GradScaler
+from torch.amp.autocast_mode import autocast
 
 logger = logging.getLogger(__name__)
 
@@ -93,7 +95,7 @@ class Trainer:
             previous_epoch=loaded_ckpt['epoch']
             print('Finished reloading the Epoch %d optimizer'%(loaded_ckpt['epoch']))
         else:
-            print('Warnning: There is no previous optimizer found. An initialized optimizer will be used.')
+            print('Warning: There is no previous optimizer found. An initialized optimizer will be used.')
 
         
         #model = DDP(self.model,device_ids=[self.global_rank],output_device=self.global_rank,broadcast_buffers=True)
@@ -114,7 +116,8 @@ class Trainer:
             
 
             losses = []
-            scaler = GradScaler()
+            # scaler = GradScaler()
+            scaler = GradScaler('cuda')
             for it, (x, y) in enumerate(loader):
 
                 # place data on the correct device
@@ -123,7 +126,8 @@ class Trainer:
 
                 # forward the model
                 if self.config.AMP: ## use AMP
-                    with autocast():
+                    # with autocast():
+                    with autocast('cuda'):
                         with torch.set_grad_enabled(is_train):
                             if self.config.BERT:
                                 logits, loss = model(x, x, y)

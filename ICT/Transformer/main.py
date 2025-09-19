@@ -3,13 +3,17 @@ import torchvision
 import torch
 import matplotlib.pyplot as plt
 import logging
+import argparse
+import os
+import sys
+
+# Add current directory to Python path for Google Colab
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+
 from utils.util import set_seed,Logger
 from datas.dataset import ImageNetDatasetMask
 from models.model import GPTConfig,GPT
 from DDP_trainer import TrainerConfig,Trainer
-import argparse
-import os
-import sys
 
 import torch.distributed as dist
 # from apex.parallel import DistributedDataParallel as DDP
@@ -31,47 +35,53 @@ def main_worker(gpu,opts):
     	rank=rank,
         group_name='mtorch'                                               
     )
-    set_seed(42)
-
-    if rank == 0:
-        sys.stdout = Logger(os.path.join(opts.ckpt_path, 'log.txt'))
-
-
-    ##TODO: directly use the provided color palette provided by OpenAI. [√]
-    C = np.load('kmeans_centers.npy') ## [0,1]
-    C = np.rint(127.5 * (C + 1.0))
-    C = torch.from_numpy(C)
-
-
-    ## Define the dataset
-    train_dataset=ImageNetDatasetMask(opts.data_path,C,mask_path=opts.mask_path,is_train=True,use_ImageFolder=opts.use_ImageFolder,image_size=opts.image_size,random_stroke=opts.random_stroke)
-    test_dataset=ImageNetDatasetMask(opts.validation_path,C,mask_path=opts.mask_path,is_train=False,use_ImageFolder=opts.use_ImageFolder,image_size=opts.image_size)
-
-
-    model_config=GPTConfig(train_dataset.vocab_size,train_dataset.block_size,
-                           embd_pdrop=0.0, resid_pdrop=0.0, 
-                           attn_pdrop=0.0, n_layer=opts.n_layer, n_head=opts.n_head,
-                           n_embd=opts.n_embd, BERT=opts.BERT, use_gelu2=opts.GELU_2, dynamic_weight=opts.dynamic_weight)
-
-    ## Original n_layer=12, n_head=8, n_embd=256
-    IGPT_model=GPT(model_config)
-
-    tokens_per_epoch=len(train_dataset.image_id_list)*train_dataset.block_size
     
-    train_epochs=opts.train_epoch
+    try:
+        set_seed(42)
 
-    ## By default: 8xV100 GPUs
-    ## TODO: Modify the ckpt path [√]
-    train_config=TrainerConfig(max_epochs=train_epochs,batch_size=opts.batch_size,
-                                learning_rate=opts.lr,betas = (0.9, 0.95), 
-                                weight_decay=0,lr_decay=True,warmup_tokens=tokens_per_epoch/opts.world_size, 
-                                final_tokens=train_epochs*tokens_per_epoch/opts.world_size,ckpt_path=opts.ckpt_path,
-                                num_workers=8,GPU_ids=opts.GPU_ids, BERT=opts.BERT, world_size=opts.world_size,
-                                AMP=opts.AMP,print_freq=opts.print_freq)
-    trainer = Trainer(IGPT_model, train_dataset, test_dataset, train_config, gpu, rank)
-    loaded_ckpt=trainer.load_checkpoint(opts.resume_ckpt)
-    trainer.train(loaded_ckpt)
-    print("Finish the training ...")
+        if rank == 0:
+            sys.stdout = Logger(os.path.join(opts.ckpt_path, 'log.txt'))
+
+
+        ##TODO: directly use the provided color palette provided by OpenAI. [√]
+        C = np.load('kmeans_centers.npy') ## [0,1]
+        C = np.rint(127.5 * (C + 1.0))
+        C = torch.from_numpy(C)
+
+
+        ## Define the dataset
+        train_dataset=ImageNetDatasetMask(opts.data_path,C,mask_path=opts.mask_path,is_train=True,use_ImageFolder=opts.use_ImageFolder,image_size=opts.image_size,random_stroke=opts.random_stroke)
+        test_dataset=ImageNetDatasetMask(opts.validation_path,C,mask_path=opts.mask_path,is_train=False,use_ImageFolder=opts.use_ImageFolder,image_size=opts.image_size)
+
+
+        model_config=GPTConfig(train_dataset.vocab_size,train_dataset.block_size,
+                               embd_pdrop=0.0, resid_pdrop=0.0, 
+                               attn_pdrop=0.0, n_layer=opts.n_layer, n_head=opts.n_head,
+                               n_embd=opts.n_embd, BERT=opts.BERT, use_gelu2=opts.GELU_2, dynamic_weight=opts.dynamic_weight)
+
+        ## Original n_layer=12, n_head=8, n_embd=256
+        IGPT_model=GPT(model_config)
+
+        tokens_per_epoch=len(train_dataset.image_id_list)*train_dataset.block_size
+        
+        train_epochs=opts.train_epoch
+
+        ## By default: 8xV100 GPUs
+        ## TODO: Modify the ckpt path [√]
+        train_config=TrainerConfig(max_epochs=train_epochs,batch_size=opts.batch_size,
+                                    learning_rate=opts.lr,betas = (0.9, 0.95), 
+                                    weight_decay=0,lr_decay=True,warmup_tokens=tokens_per_epoch/opts.world_size, 
+                                    final_tokens=train_epochs*tokens_per_epoch/opts.world_size,ckpt_path=opts.ckpt_path,
+                                    num_workers=8,GPU_ids=opts.GPU_ids, BERT=opts.BERT, world_size=opts.world_size,
+                                    AMP=opts.AMP,print_freq=opts.print_freq)
+        trainer = Trainer(IGPT_model, train_dataset, test_dataset, train_config, gpu, rank)
+        loaded_ckpt=trainer.load_checkpoint(opts.resume_ckpt)
+        trainer.train(loaded_ckpt)
+        print("Finish the training ...")
+    
+    finally:
+        # Clean up the distributed process group to prevent resource leaks
+        dist.destroy_process_group()
 
 
 
