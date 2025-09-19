@@ -1,0 +1,260 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# PyInstaller
+#  Usually these files are written by a python script from a template
+#  before PyInstaller builds the exe, so as to inject date/other infos into it.
+*.manifest
+*.spec
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+
+# Translations
+*.mo
+*.pot
+
+# Django stuff:
+*.log
+local_settings.py
+db.sqlite3
+db.sqlite3-journal
+
+# Flask stuff:
+instance/
+.webassets-cache
+
+# Scrapy stuff:
+.scrapy
+
+# Sphinx documentation
+docs/_build/
+
+# PyBuilder
+target/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# IPython
+profile_default/
+ipython_config.py
+
+# pyenv
+.python-version
+
+# pipenv
+#   According to pypa/pipenv#598, it is recommended to include Pipfile.lock in version control.
+#   However, in case of collaboration, if having platform-specific dependencies or dependencies
+#   having no cross-platform support, pipenv may install dependencies that don't work, or not
+#   install all needed dependencies.
+#Pipfile.lock
+
+# PEP 582; used by e.g. github.com/David-OConnor/pyflow
+__pypackages__/
+
+# Celery stuff
+celerybeat-schedule
+celerybeat.pid
+
+# SageMath parsed files
+*.sage.py
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Spyder project settings
+.spyderproject
+.spyproject
+
+# Rope project settings
+.ropeproject
+
+# mkdocs documentation
+/site
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Pyre type checker
+.pyre/
+
+# Machine Learning / Deep Learning specific
+# Model checkpoints and weights
+*.pt
+*.pth
+*.ckpt
+*.h5
+*.pkl
+*.pth.tar
+*.safetensors
+
+# Experiment directories
+experiments/
+output/
+ckpts*/
+checkpoints/
+logs/
+runs/
+wandb/
+tensorboard/
+
+# Data directories (uncomment if you don't want to track data)
+# data/
+# datasets/
+# img/
+# images/
+# masks/
+# mask_inv/
+# edge/
+
+# Large data files
+*.dat
+*.npy
+*.npz
+*.hdf5
+*.h5
+
+# OAI_dataset: Keep directory structure but only track specific files
+# Ignore everything in OAI_dataset by default
+OAI_dataset/*
+
+# But allow the directory structure and specific files
+!OAI_dataset/
+!OAI_dataset/**/
+!OAI_dataset/data.csv
+!OAI_dataset/img/
+!OAI_dataset/img/**
+
+# Ignore specific OAI_dataset subdirectories that contain large files
+OAI_dataset/output/
+OAI_dataset/test/
+OAI_dataset/train/
+OAI_dataset/valid/
+
+# Image files (uncomment if you don't want to track images)
+# *.png
+# *.jpg
+# *.jpeg
+# *.gif
+# *.bmp
+# *.tiff
+# *.tif
+
+# Video files
+*.mp4
+*.avi
+*.mov
+*.mkv
+*.wmv
+*.flv
+
+# Audio files
+*.wav
+*.mp3
+*.flac
+*.aac
+
+# Archive files
+*.zip
+*.tar
+*.tar.gz
+*.rar
+*.7z
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.temp
+*.bak
+*.backup
+
+# Configuration files with sensitive data
+config.ini
+secrets.json
+.secrets
+credentials.json
+
+# Jupyter notebook checkpoints
+.ipynb_checkpoints/
+
+# Conda environment files (optional - uncomment if you want to ignore)
+# environment.yml
+# conda-meta/
+
+# Docker files (optional)
+# Dockerfile
+# docker-compose.yml
+# .dockerignore
+
+# Git LFS files (if using Git LFS)
+# *.lfs
+
+# Custom project-specific ignores
+# Add any project-specific patterns here
