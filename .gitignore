@@ -164,6 +164,16 @@ tensorboard/
 *.hdf5
 *.h5
 
+# Generated analysis and log files
+kmeans_centers.npy
+log_*.dat
+*_test_results.csv
+*_test_scatter.png
+*_training_loss.png
+sample_*.png
+*_split_info.csv
+split_summary.csv
+
 # OAI_dataset: Keep directory structure but only track specific files
 # Ignore everything in OAI_dataset by default
 OAI_dataset/*
