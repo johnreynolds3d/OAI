@@ -148,6 +148,11 @@ runs/
 wandb/
 tensorboard/
 
+# AOT-GAN experiments: keep directory but ignore contents
+!AOT-GAN-for-Inpainting/experiments/
+AOT-GAN-for-Inpainting/experiments/*
+!AOT-GAN-for-Inpainting/experiments/.gitkeep
+
 # Data directories (uncomment if you don't want to track data)
 # data/
 # datasets/
