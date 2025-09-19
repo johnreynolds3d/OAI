@@ -182,6 +182,7 @@ OAI_dataset/*
 !OAI_dataset/
 !OAI_dataset/**/
 !OAI_dataset/data.csv
+!OAI_dataset/split.py
 !OAI_dataset/img/
 !OAI_dataset/img/**
 
