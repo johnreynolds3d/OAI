@@ -88,7 +88,12 @@ class Default_Conf(NoneDict):
 
     @staticmethod
     def device():
-        return "cuda" if torch.cuda.is_available() else "cpu"
+        # Import get_device from ICT utils
+        import sys
+        import os
+        sys.path.append(os.path.join(os.path.dirname(os.path.dirname(__file__)), '..', 'ICT', 'Transformer'))
+        from utils.util import get_device
+        return str(get_device())
 
     def eval_imswrite(
         self,

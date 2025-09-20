@@ -19,6 +19,11 @@ def set_seed(seed):
     torch.cuda.manual_seed_all(seed)
 
 
+def get_device():
+    """Get the appropriate device (CUDA if available, otherwise CPU)."""
+    return torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
+
 def top_k_logits(logits, k):
     v, ix = torch.topk(logits, k)
     out = logits.clone()

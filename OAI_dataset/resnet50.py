@@ -33,6 +33,10 @@ from torchvision import (
 )  # `transforms` for image preprocessing, `models` for ResNet-50
 from torchvision.models import ResNet50_Weights  # For specifying model weights
 
+# Add the ICT utils path to import get_device
+import sys
+sys.path.append(os.path.join(os.path.dirname(os.path.dirname(__file__)), 'ICT', 'Transformer'))
+from utils.util import get_device
 
 # Paths
 # Define the path to the CSV file that contains BMD values and image filenames
@@ -132,7 +136,7 @@ val_loader = DataLoader(BMDDataset(val, transform), batch_size=32)
 test_loader = DataLoader(BMDDataset(test, transform), batch_size=32)
 
 # Load and modify ResNet-50
-device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+device = get_device()
 print(f"Using device: {device}")
 if torch.cuda.is_available():
     print(f"GPU: {torch.cuda.get_device_name(0)}")
