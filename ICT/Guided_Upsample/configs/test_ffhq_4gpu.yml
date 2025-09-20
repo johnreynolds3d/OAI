@@ -1,0 +1,31 @@
+# FFHQ config optimized for 4GB GPU
+model:
+  name: "InpaintingModel"
+  generator:
+    name: "InpaintingGenerator"
+    in_channels: 4
+    out_channels: 3
+    base_channels: 32  # Reduced from 64
+    num_blocks: 6      # Reduced from 9
+    use_attention: true
+    attention_layers: [2, 4]  # Reduced attention layers
+  discriminator:
+    name: "PatchDiscriminator"
+    in_channels: 3
+    base_channels: 32  # Reduced from 64
+    num_layers: 3      # Reduced from 4
+
+data:
+  batch_size: 1
+  num_workers: 1
+  image_size: 256
+  crop_size: 256
+
+training:
+  lr: 0.0002
+  beta1: 0.5
+  beta2: 0.999
+  num_epochs: 200
+  save_interval: 10
+
+device: "cuda:0"

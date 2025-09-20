@@ -1,0 +1,31 @@
+# ImageNet config optimized for 4GB GPU
+model:
+  name: "InpaintingModel"
+  generator:
+    name: "InpaintingGenerator"
+    in_channels: 4
+    out_channels: 3
+    base_channels: 24  # Further reduced
+    num_blocks: 4      # Further reduced
+    use_attention: true
+    attention_layers: [2]  # Minimal attention
+  discriminator:
+    name: "PatchDiscriminator"
+    in_channels: 3
+    base_channels: 24  # Further reduced
+    num_layers: 2      # Further reduced
+
+data:
+  batch_size: 1
+  num_workers: 1
+  image_size: 128      # Reduced image size
+  crop_size: 128
+
+training:
+  lr: 0.0002
+  beta1: 0.5
+  beta2: 0.999
+  num_epochs: 200
+  save_interval: 10
+
+device: "cuda:0"
