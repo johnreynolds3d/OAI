@@ -16,7 +16,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v4
       with:
-        python-version: '3.8'
+        python-version: '3.9'
     
     - name: Install dependencies
       run: |
@@ -24,7 +24,7 @@ jobs:
         pip install black pre-commit
     
     - name: Check Black formatting
-      run: black --line-length 88 --target-version py38 --check .
+      run: black --line-length 88 --target-version py39 --check .
     
     - name: Run pre-commit hooks
       run: |
