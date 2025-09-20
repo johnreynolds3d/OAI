@@ -31,9 +31,8 @@ cd OAI
 
 #### For ICT (Image Completion Transformer)
 ```bash
-cd ICT
-pip install -r requirements.txt
-cd ..
+# ICT dependencies are included in the main project dependencies
+# No additional installation required
 ```
 
 #### For AOT-GAN and RePaint
