@@ -1,24 +1,36 @@
 # Suppress warnings and set environment variables
 import os
 import warnings
-warnings.filterwarnings('ignore', category=UserWarning)  # Suppress PyTorch warnings
-os.environ['PYTORCH_CUDA_ALLOC_CONF'] = 'max_split_size_mb:128'  # Reduce CUDA memory warnings
+
+warnings.filterwarnings("ignore", category=UserWarning)  # Suppress PyTorch warnings
+os.environ["PYTORCH_CUDA_ALLOC_CONF"] = (
+    "max_split_size_mb:128"  # Reduce CUDA memory warnings
+)
 
 # Data Handling
 import pandas as pd  # For reading and manipulating CSV/tabular data
-from sklearn.model_selection import train_test_split  # For splitting the dataset into train/val/test
+from sklearn.model_selection import (
+    train_test_split,
+)  # For splitting the dataset into train/val/test
 from PIL import Image  # For loading and manipulating images
 import matplotlib
-matplotlib.use('Agg')  # Use non-interactive backend to avoid GTK warnings
+
+matplotlib.use("Agg")  # Use non-interactive backend to avoid GTK warnings
 import matplotlib.pyplot as plt  # For plotting graphs, the training loss curve at the end per epoch
 
 # PyTorch and Deep Learning
 import torch  # PyTorch library for tensor operations and GPU support (im doing this on a laptop with my cpu)
 import torch.nn as nn  # For building and using neural network layers (Linear, Conv, etc)
-from torch.utils.data import Dataset, DataLoader  # For creating custom datasets and loading them in batches
+from torch.utils.data import (
+    Dataset,
+    DataLoader,
+)  # For creating custom datasets and loading them in batches
 
 # For pretrained models and transforms
-from torchvision import transforms, models  # `transforms` for image preprocessing, `models` for ResNet-50
+from torchvision import (
+    transforms,
+    models,
+)  # `transforms` for image preprocessing, `models` for ResNet-50
 from torchvision.models import ResNet50_Weights  # For specifying model weights
 
 
@@ -86,20 +98,19 @@ train, val = train_test_split(train_val, test_size=0.1, random_state=1)
 
 # Transforms
 # Define a set of image transformations to apply to every image
-transform = transforms.Compose([
-    # Resize the image to 224x224 pixels
-    # This is the input size expected by ResNet-50
-    transforms.Resize((224, 224)),
-
-    # Convert the image to a PyTorch tensor
-    # Also scales pixel values from [0, 255] to [0.0, 1.0]
-    transforms.ToTensor(),
-
-    # Normalize the tensor using the mean and std used during ImageNet pretraining
-    # These values are channel-wise (for RGB): [mean_R, mean_G, mean_B], [std_R, std_G, std_B]
-    transforms.Normalize(mean=[0.485, 0.456, 0.406],
-                         std=[0.229, 0.224, 0.225]),
-])
+transform = transforms.Compose(
+    [
+        # Resize the image to 224x224 pixels
+        # This is the input size expected by ResNet-50
+        transforms.Resize((224, 224)),
+        # Convert the image to a PyTorch tensor
+        # Also scales pixel values from [0, 255] to [0.0, 1.0]
+        transforms.ToTensor(),
+        # Normalize the tensor using the mean and std used during ImageNet pretraining
+        # These values are channel-wise (for RGB): [mean_R, mean_G, mean_B], [std_R, std_G, std_B]
+        transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
+    ]
+)
 
 
 # Dataloaders
@@ -169,7 +180,7 @@ criterion = nn.MSELoss()
 # This includes the last conv block (layer4) and the new final fully connected layer (fc)
 optimizer = torch.optim.Adam(
     filter(lambda p: p.requires_grad, model.parameters()),
-    lr=1e-4  # Learning rate,small step size to avoid large updates during fine-tuning
+    lr=1e-4,  # Learning rate,small step size to avoid large updates during fine-tuning
 )
 
 # Set the number of training epochs (how many times the model sees the entire training set)
@@ -224,7 +235,7 @@ for epoch in range(num_epochs):
 torch.save(model.state_dict(), "resnet50_bmd_model.pth")
 
 # Plot training loss
-plt.plot(range(1, num_epochs + 1), train_losses, marker='o')
+plt.plot(range(1, num_epochs + 1), train_losses, marker="o")
 plt.title("Training Loss per Epoch")
 plt.xlabel("Epoch")
 plt.ylabel("Loss")
@@ -260,7 +271,13 @@ with open("resnet50_test_results.csv", mode="w", newline="") as file:
 # --- Plot predictions vs. actuals ---
 plt.figure()
 plt.scatter(actuals, predictions, alpha=0.6)
-plt.plot([min(actuals), max(actuals)], [min(actuals), max(actuals)], color='red', linestyle='--', label='Ideal Fit')
+plt.plot(
+    [min(actuals), max(actuals)],
+    [min(actuals), max(actuals)],
+    color="red",
+    linestyle="--",
+    label="Ideal Fit",
+)
 plt.xlabel("Actual BMD")
 plt.ylabel("Predicted BMD")
 plt.title("ResNet-50 Predictions vs. Actual BMD (Test Set)")

@@ -4,6 +4,7 @@ import shutil
 import sys
 from subprocess import call
 
+
 def run_cmd(command):
     try:
         call(command, shell=True)
@@ -11,22 +12,45 @@ def run_cmd(command):
         print("Process interrupted")
         sys.exit(1)
 
-if __name__=='__main__':
+
+if __name__ == "__main__":
 
     parser = argparse.ArgumentParser()
-    parser.add_argument("--input_image",type=str,default='./',help='The test input image path')
-    parser.add_argument("--input_mask",type=str,default='./',help='The test input mask path')
-    parser.add_argument("--sample_num",type=int,default=10,help='# of completion results')
-    parser.add_argument("--save_place",type=str,default='./save',help='Please use the absolute path')
-    parser.add_argument("--transformer_ckpt",type=str,default='./Transformer/experiments/ICT_OAI_5_epochs/best.pth',help='Path to your trained Transformer checkpoint')
-    parser.add_argument("--upsample_ckpt",type=str,default='./Guided_Upsample/experiments',help='Path to your trained Guided_Upsample checkpoint')
-    parser.add_argument("--visualize_all",action='store_true',help='show the diverse results in one row')
+    parser.add_argument(
+        "--input_image", type=str, default="./", help="The test input image path"
+    )
+    parser.add_argument(
+        "--input_mask", type=str, default="./", help="The test input mask path"
+    )
+    parser.add_argument(
+        "--sample_num", type=int, default=10, help="# of completion results"
+    )
+    parser.add_argument(
+        "--save_place", type=str, default="./save", help="Please use the absolute path"
+    )
+    parser.add_argument(
+        "--transformer_ckpt",
+        type=str,
+        default="./Transformer/experiments/ICT_OAI_5_epochs/best.pth",
+        help="Path to your trained Transformer checkpoint",
+    )
+    parser.add_argument(
+        "--upsample_ckpt",
+        type=str,
+        default="./Guided_Upsample/experiments",
+        help="Path to your trained Guided_Upsample checkpoint",
+    )
+    parser.add_argument(
+        "--visualize_all",
+        action="store_true",
+        help="show the diverse results in one row",
+    )
 
-    opts=parser.parse_args()
+    opts = parser.parse_args()
 
     ### Stage1: Reconstruction of Appearance Priors using Transformer
 
-    prior_url=os.path.join(opts.save_place,"AP")
+    prior_url = os.path.join(opts.save_place, "AP")
     if os.path.exists(prior_url):
         print("Please change the save path")
         sys.exit(1)
@@ -52,7 +76,7 @@ if __name__=='__main__':
     print("Finish the Stage 1 - Appearance Priors Reconstruction using Transformer")
 
     os.chdir("../Guided_Upsample")
-    
+
     # Use your trained OAI Guided_Upsample checkpoint
     # Use edge detection files from the same directory as input images
     edge_dir = os.path.join(os.path.dirname(opts.input_image), "edge")

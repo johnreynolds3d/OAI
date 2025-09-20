@@ -50,9 +50,15 @@ def main_worker(args, use_gpu=True):
         # Handle filenames with multiple periods (like OAI dataset: 6.C.1_9000798_20081107_001.png)
         basename = os.path.basename(ipath)
         image_name = os.path.splitext(basename)[0]  # Remove only the last extension
-        postprocess(image_masked[0]).save(os.path.join(args.outputs, f"{image_name}_masked.png"))
-        postprocess(pred_img[0]).save(os.path.join(args.outputs, f"{image_name}_pred.png"))
-        postprocess(comp_imgs[0]).save(os.path.join(args.outputs, f"{image_name}_comp.png"))
+        postprocess(image_masked[0]).save(
+            os.path.join(args.outputs, f"{image_name}_masked.png")
+        )
+        postprocess(pred_img[0]).save(
+            os.path.join(args.outputs, f"{image_name}_pred.png")
+        )
+        postprocess(comp_imgs[0]).save(
+            os.path.join(args.outputs, f"{image_name}_comp.png")
+        )
         print(f"saving to {os.path.join(args.outputs, image_name)}")
 
 
