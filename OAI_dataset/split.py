@@ -233,21 +233,21 @@ def create_balanced_splits():
         print(f"  Osteoporotic: {osteo_count} ({osteo_count/total*100:.1f}%)")
         print(f"  Normal: {normal_count} ({normal_count/total*100:.1f}%)")
 
-    # Create output directories
+    # Create output directories inside OAI_dataset
     output_dirs = [
-        "train/img",
-        "train/mask",
-        "train/mask_inv",
-        "valid/img",
-        "valid/mask",
-        "valid/mask_inv",
-        "test/img",
-        "test/mask",
-        "test/mask_inv",
+        os.path.join(script_dir, "train/img"),
+        os.path.join(script_dir, "train/mask"),
+        os.path.join(script_dir, "train/mask_inv"),
+        os.path.join(script_dir, "valid/img"),
+        os.path.join(script_dir, "valid/mask"),
+        os.path.join(script_dir, "valid/mask_inv"),
+        os.path.join(script_dir, "test/img"),
+        os.path.join(script_dir, "test/mask"),
+        os.path.join(script_dir, "test/mask_inv"),
     ]
     for dir_name in output_dirs:
         os.makedirs(dir_name, exist_ok=True)
-        print(f"Created directory: {dir_name}/")
+        print(f"Created directory: {os.path.relpath(dir_name, script_dir)}/")
 
     # Copy images to respective directories
     print(f"\n📁 Copying images...")
@@ -271,9 +271,13 @@ def create_balanced_splits():
         return copied_count, missing_count
 
     # Copy images for each split
-    train_copied, train_missing = copy_images(train_df, "train/img")
-    val_copied, val_missing = copy_images(val_df, "valid/img")
-    test_copied, test_missing = copy_images(test_df, "test/img")
+    train_copied, train_missing = copy_images(
+        train_df, os.path.join(script_dir, "train/img")
+    )
+    val_copied, val_missing = copy_images(val_df, os.path.join(script_dir, "valid/img"))
+    test_copied, test_missing = copy_images(
+        test_df, os.path.join(script_dir, "test/img")
+    )
 
     print(f"\nCopy results:")
     print(f"Train: {train_copied} copied, {train_missing} missing")
@@ -290,13 +294,25 @@ def create_balanced_splits():
 
     # Generate masks for each split
     train_mask_success, train_mask_failed = generate_masks_for_split(
-        train_df, "train", "train/img", "train/mask", "train/mask_inv"
+        train_df,
+        "train",
+        os.path.join(script_dir, "train/img"),
+        os.path.join(script_dir, "train/mask"),
+        os.path.join(script_dir, "train/mask_inv"),
     )
     val_mask_success, val_mask_failed = generate_masks_for_split(
-        val_df, "validation", "valid/img", "valid/mask", "valid/mask_inv"
+        val_df,
+        "validation",
+        os.path.join(script_dir, "valid/img"),
+        os.path.join(script_dir, "valid/mask"),
+        os.path.join(script_dir, "valid/mask_inv"),
     )
     test_mask_success, test_mask_failed = generate_masks_for_split(
-        test_df, "test", "test/img", "test/mask", "test/mask_inv"
+        test_df,
+        "test",
+        os.path.join(script_dir, "test/img"),
+        os.path.join(script_dir, "test/mask"),
+        os.path.join(script_dir, "test/mask_inv"),
     )
 
     # Save split information to CSV files
