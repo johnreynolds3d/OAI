@@ -136,7 +136,10 @@ def create_balanced_splits():
 
     # Load the CSV data
     print("Loading BMD data...")
-    df = pd.read_csv("data.csv", header=None, names=["BMD", "filename"])
+    # Get the directory where this script is located
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    csv_path = os.path.join(script_dir, "data.csv")
+    df = pd.read_csv(csv_path, header=None, names=["BMD", "filename"])
     print(f"Total samples: {len(df)}")
 
     # Define osteoporosis threshold (using 25th percentile as we determined earlier)
@@ -255,7 +258,7 @@ def create_balanced_splits():
         missing_count = 0
 
         for _, row in df.iterrows():
-            src_path = os.path.join("img", row["filename"])
+            src_path = os.path.join(script_dir, "img", row["filename"])
             dst_path = os.path.join(target_dir, row["filename"])
 
             if os.path.exists(src_path):
@@ -298,9 +301,9 @@ def create_balanced_splits():
 
     # Save split information to CSV files
     print(f"\n💾 Saving split information...")
-    train_df.to_csv("train_split_info.csv", index=False)
-    val_df.to_csv("valid_split_info.csv", index=False)
-    test_df.to_csv("test_split_info.csv", index=False)
+    train_df.to_csv(os.path.join(script_dir, "train_split_info.csv"), index=False)
+    val_df.to_csv(os.path.join(script_dir, "valid_split_info.csv"), index=False)
+    test_df.to_csv(os.path.join(script_dir, "test_split_info.csv"), index=False)
 
     print(f"\nSplit information saved to:")
     print(f"- train_split_info.csv")
@@ -327,7 +330,7 @@ def create_balanced_splits():
     }
 
     summary_df = pd.DataFrame([summary])
-    summary_df.to_csv("split_summary.csv", index=False)
+    summary_df.to_csv(os.path.join(script_dir, "split_summary.csv"), index=False)
     print(f"- split_summary.csv")
 
     print(f"\n✅ Dataset split and mask generation completed successfully!")
