@@ -20,6 +20,14 @@ def postprocess(image):
 def main_worker(args, use_gpu=True):
     # device = torch.device("cuda") if use_gpu else torch.device("cpu")
 
+    # Check if pre-trained model path is provided
+    if args.pre_train is None:
+        raise ValueError("--pre_train argument is required. Please specify the path to a pre-trained model.")
+    
+    # Check if the pre-trained model file exists
+    if not os.path.exists(args.pre_train):
+        raise FileNotFoundError(f"Pre-trained model not found at: {args.pre_train}")
+
     # Model and version
     net = importlib.import_module("model." + args.model)
     model = net.InpaintGenerator(args).cuda()
