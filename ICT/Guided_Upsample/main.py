@@ -23,6 +23,7 @@ def main(mode=None):
 
     # init device
     from utils.util import get_device
+
     config.DEVICE = get_device()
     if torch.cuda.is_available():
         torch.backends.cudnn.benchmark = True  # cudnn auto-tuner

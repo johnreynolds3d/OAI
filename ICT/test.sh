@@ -3,5 +3,5 @@ cd ICT && python run_oai.py --input_image ../OAI_dataset/test/img \
     --sample_num 1 \
     --save_place ../OAI_dataset/output/ICT \
     --transformer_ckpt ./ckpts_ICT/Transformer/ImageNet.pth \
-    --upsample_ckpt ./ckpts_ICT/Upsample/ImageNet/ 
+    --upsample_ckpt ./ckpts_ICT/Upsample/ImageNet/
     # --visualize_all

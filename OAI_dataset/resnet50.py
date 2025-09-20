@@ -35,7 +35,10 @@ from torchvision.models import ResNet50_Weights  # For specifying model weights
 
 # Add the ICT utils path to import get_device
 import sys
-sys.path.append(os.path.join(os.path.dirname(os.path.dirname(__file__)), 'ICT', 'Transformer'))
+
+sys.path.append(
+    os.path.join(os.path.dirname(os.path.dirname(__file__)), "ICT", "Transformer")
+)
 from utils.util import get_device
 
 # Paths

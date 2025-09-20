@@ -170,8 +170,16 @@ def get_activations(images, model, batch_size=64, dims=2048, cuda=True, verbose=
         # Import get_device from ICT utils
         import sys
         import os
-        sys.path.append(os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), 'ICT', 'Transformer'))
+
+        sys.path.append(
+            os.path.join(
+                os.path.dirname(os.path.dirname(os.path.dirname(__file__))),
+                "ICT",
+                "Transformer",
+            )
+        )
         from utils.util import get_device
+
         batch = batch.to(get_device())
         with torch.no_grad():
             pred = model(batch)[0]
