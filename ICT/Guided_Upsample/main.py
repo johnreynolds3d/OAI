@@ -22,7 +22,7 @@ def main(mode=None):
     # os.environ['CUDA_VISIBLE_DEVICES'] = ','.join(str(e) for e in config.GPU)
 
     # init device
-    from utils.util import get_device
+    from src.utils import get_device
 
     config.DEVICE = get_device()
     if torch.cuda.is_available():
