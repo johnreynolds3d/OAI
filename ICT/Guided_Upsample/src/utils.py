@@ -5,6 +5,12 @@ import random
 import numpy as np
 import matplotlib.pyplot as plt
 from PIL import Image
+import torch
+
+
+def get_device():
+    """Get the appropriate device (CUDA if available, otherwise CPU)."""
+    return torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 
 def create_dir(dir):

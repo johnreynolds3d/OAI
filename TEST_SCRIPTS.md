@@ -90,3 +90,14 @@ Each model generates different types of output files:
 - Output directories are automatically created if they don't exist
 - All scripts use the OAI test dataset with 22 images
 - Make sure you have sufficient GPU memory and CUDA available for running the models
+
+## ⚠️ ICT Model Compatibility Issues
+
+**Current Status**: ICT models may have compatibility issues due to architecture mismatches between pre-trained models and the inference code.
+
+**Recommended Models for Testing**:
+- ✅ **AOT-GAN**: Fully working (tested with CelebA-HQ and Places2)
+- ✅ **RePaint**: Fully working (tested with Places2)
+- ⚠️ **ICT**: May require model retraining or architecture adjustments
+
+If you encounter errors with ICT models, consider using AOT-GAN or RePaint instead, or training ICT models specifically for your OAI dataset.
