@@ -1,4 +1,10 @@
-cd ICT/Transformer && python main.py \
+#!/bin/bash
+
+# Get the directory where this script is located
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+# Change to the script directory and run from there
+cd "$SCRIPT_DIR/Transformer" && python main.py \
     --name ICT_OAI_6_epochs \
     --ckpt_path experiments \
     --data_path ../../OAI_dataset/img \

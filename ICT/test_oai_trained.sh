@@ -1,8 +1,13 @@
 #!/bin/bash
-cd ICT && python run_oai.py --input_image /home/john/Documents/OAI/OAI_dataset/test/img \
-    --input_mask /home/john/Documents/OAI/OAI_dataset/test/mask \
+
+# Get the directory where this script is located
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+# Change to the script directory and run from there
+cd "$SCRIPT_DIR" && python run_oai.py --input_image ../OAI_dataset/test/img \
+    --input_mask ../OAI_dataset/test/mask \
     --sample_num 1 \
-    --save_place /home/john/Documents/OAI/OAI_dataset/output/ICT_OAI_Trained \
-    --transformer_ckpt /home/john/Documents/OAI/ICT/Transformer/experiments/ICT_OAI_5_epochs/best.pth \
-    --upsample_ckpt /home/john/Documents/OAI/ICT/Guided_Upsample/experiments \
+    --save_place ../OAI_dataset/output/ICT_OAI \
+    --transformer_ckpt ./Transformer/experiments/ICT_OAI_5_epochs/best.pth \
+    --upsample_ckpt ./Guided_Upsample/experiments \
     --visualize_all

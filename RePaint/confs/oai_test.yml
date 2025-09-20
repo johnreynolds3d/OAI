@@ -54,8 +54,8 @@ data:
   eval:
     oai_test:
       mask_loader: true
-      gt_path: /home/john/Documents/OAI/OAI_dataset/test/img
-      mask_path: /home/john/Documents/OAI/OAI_dataset/test/mask_inv
+      gt_path: ../OAI_dataset/test/img
+      mask_path: ../OAI_dataset/test/mask_inv
       image_size: 256
       class_cond: false
       deterministic: true
@@ -68,7 +68,7 @@ data:
       offset: 0
       max_len: 22  # Number of test images
       paths:
-        srs: /home/john/Documents/OAI/OAI_dataset/output/RePaint/inpainted
-        lrs: /home/john/Documents/OAI/OAI_dataset/output/RePaint/gt_masked
-        gts: /home/john/Documents/OAI/OAI_dataset/output/RePaint/gt
-        gt_keep_masks: /home/john/Documents/OAI/OAI_dataset/output/RePaint/gt_keep_mask
+        srs: ../OAI_dataset/output/RePaint_Places/inpainted
+        lrs: ../OAI_dataset/output/RePaint_Places/gt_masked
+        gts: ../OAI_dataset/output/RePaint_Places/gt
+        gt_keep_masks: ../OAI_dataset/output/RePaint_Places/gt_keep_mask
